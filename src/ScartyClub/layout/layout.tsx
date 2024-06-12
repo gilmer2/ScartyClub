@@ -1,9 +1,20 @@
-import { Outlet } from "react-router-dom";
+import { NavLink, Outlet } from "react-router-dom";
+import { Paths } from "../../path/paths";
 
 export const Layout: React.FC = () => {
   return (
     <div>
-      <h1>Home</h1>
+      <NavLink
+        to={Paths.product} 
+      >
+        productos
+      </NavLink>
+      <NavLink
+        to={Paths.otros} 
+      >
+        otros
+      </NavLink>
+      
       <Outlet />
     </div>
   );

@@ -12,6 +12,7 @@ function App() {
     <Routes>
         <Route path={Paths.home} element={<Layout />}>
           <Route path={Paths.product} element={<Product/>} />
+          <Route path={Paths.otros} element={<h1>otros</h1>} />
         </Route>
         <Route path={Paths.login} element={<Login/>}>
 
