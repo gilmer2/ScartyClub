@@ -1,9 +1,7 @@
-import { useState } from "react";
 import "./Login.css";
 import { Button } from "../componets/Button";
 import { Input } from "../componets/Input";
 import { Link } from "react-router-dom";
-import { Paths } from "../path/paths";
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 export const Login = () => {
