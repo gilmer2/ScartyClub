@@ -3,4 +3,5 @@ export const Paths = {
     product: '/product',
     otros: '/otros',
     login: '/login',
+    register: '/register',
 }
