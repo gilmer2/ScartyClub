@@ -77,3 +77,31 @@
 .Admin-section li button:last-of-type:hover {
   background-color: #c82333;
 }
+
+.App {
+  text-align: center;
+}
+
+.client-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+.client-table th,
+.client-table td {
+  border: 1px solid #ddd;
+  padding: 8px;
+}
+
+.client-table th {
+  background-color: #f2f2f2;
+}
+
+.client-table tbody tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+.client-table tbody tr:hover {
+  background-color: #ddd;
+}
