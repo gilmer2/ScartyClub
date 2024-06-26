@@ -3,18 +3,20 @@ import "./App.css";
 import { Route, Routes } from "react-router-dom";
 import { Layout } from "./ScartyClub/layout/layout";
 import { Paths } from "./path/paths";
-import { Login } from "./auth/Login";
 import { Register } from "./auth/Register";
 import Admin from "./ScartyClub/admin/Admin";
 import { ProtectedRoute } from "./utils/utils";
-import { getTokenFromLocalStorage } from "./utils/authUtils";
+import { getStateSesion } from "./utils/authUtils";
+import Login from "./auth/Login";
+import { ToastContainer } from "react-toastify";
 
 const queryClient = new QueryClient();
-const stateSection = getTokenFromLocalStorage();
-const station = stateSection ? true : false;
+const stateSection = getStateSesion() ?? "false";
+const station = stateSection === "true" ? true : false;
 function App() {
   return (
     <QueryClientProvider client={queryClient}>
+      <ToastContainer />
       <Routes>
         <Route
           element={
@@ -30,8 +32,9 @@ function App() {
             <Route path="/admin" element={<Admin />} />
           </Route>
         </Route>
-
-        <Route path={Paths.login} element={<Login />}></Route>
+        <Route element={<ProtectedRoute canActivate={station} state={true} redirectPath={Paths.home} />}>
+          <Route path={Paths.login} element={<Login />}></Route>
+        </Route>
         <Route path={Paths.register} element={<Register />}></Route>
       </Routes>
     </QueryClientProvider>
