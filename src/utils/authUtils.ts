@@ -3,7 +3,8 @@ export const saveToLocalStorage = (token: string | [], email: string) => {
 	localStorage.setItem('jwt', token)
 	localStorage.setItem('email', email)
 	saveStateSesion(false)
-	window.location.reload()
+	const storageEvent = new Event('storageUpdate')
+    window.dispatchEvent(storageEvent)
 }
 
 export const saveStateSesion = (state: boolean) => {
@@ -22,5 +23,6 @@ export const removeTokenFromLocalStorage = () => {
 	localStorage.removeItem('email')
 	localStorage.removeItem('id')
 	saveStateSesion(false)
-	window.location.reload()
+	const storageEvent = new Event('storageUpdate')
+    window.dispatchEvent(storageEvent)
 }

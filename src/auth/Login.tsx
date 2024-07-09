@@ -7,6 +7,7 @@ import { useMutation } from "@tanstack/react-query";
 import { toast } from "react-toastify";
 import { logIn } from "../service/auth.service";
 import { Paths } from "../path/paths";
+import { findOnClient } from "../service/client.service";
 
 const Login: React.FC = () => {
   const [formData, setFormData] = useState<Logindto>({ email: "", password: "" });
@@ -15,10 +16,16 @@ const Login: React.FC = () => {
 
   const loginMutation = useMutation({
     mutationFn: async (data: Logindto) => await logIn(data),
-    onSuccess: (response: LoginResponse) => {
+    onSuccess: async (response: LoginResponse) =>  {
       saveToLocalStorage(response.data, formData.email);
-      saveStateSesion(true)
-      navigate(Paths.home)
+      const user = await findOnClient(formData.email)
+      if(user.data.role === 'admin'){
+        navigate('/home')
+      } else {
+        saveStateSesion(true)
+        navigate(Paths.home)
+      }
+      
     },
     onError: () => {
       saveStateSesion(false)

@@ -12,6 +12,14 @@
   transition: background-color 0.3s, color 0.3s;
 }
 
+.point {
+  padding: 15px 20px;
+  background-color: #282c34;
+  font-weight: bold;
+  border-radius: 5px;
+  color: #61dafb;
+}
+
 .navbar-nav .nav-link:hover {
   background-color: #282c34;
   color: white !important;

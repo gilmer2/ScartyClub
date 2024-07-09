@@ -4,17 +4,19 @@ import { Navigate, Route, Routes } from "react-router-dom";
 import { Layout } from "./ScartyClub/layout/layout";
 import { Paths } from "./path/paths";
 import { Register } from "./auth/Register";
-import Admin from "./ScartyClub/admin/Admin";
 import { ProtectedRoute } from "./utils/utils";
 import { getStateSesion } from "./utils/authUtils";
 import Login from "./auth/Login";
 import { ToastContainer } from "react-toastify";
 import { Product } from "./ScartyClub/product/Product";
+import { useState } from "react";
 
 const queryClient = new QueryClient();
-const stateSection = getStateSesion() ?? "false";
-const station = stateSection === "true" ? true : false;
+// const stateSection = getStateSesion() ?? "false";
+// const station = stateSection === "true" ? true : false;
 function App() {
+  const [state, setState] = useState<string | null>(getStateSesion());
+  const station = state === "true" ? true : false;
   return (
     <QueryClientProvider client={queryClient}>
       <ToastContainer />
@@ -35,8 +37,9 @@ function App() {
             />
             <Route path={Paths.product} element={<Product />} />
             <Route path={Paths.otros} element={<h1>otros</h1>} />
-            <Route path="/admin" element={<Admin />} />
+            
           </Route>
+          
         </Route>
         <Route
           element={

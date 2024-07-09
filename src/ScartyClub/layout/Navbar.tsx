@@ -1,9 +1,21 @@
 import React from "react";
 import { Paths } from "../../path/paths";
 import CustomNavLink from "../components/CustomNavLink";
-import { removeTokenFromLocalStorage } from "../../utils/authUtils";
+import { getEmailFromLocalStorage, removeTokenFromLocalStorage } from "../../utils/authUtils";
+import { useQuery } from "@tanstack/react-query";
+import { findOnClient } from "../../service/client.service";
+
 
 export const Navbar: React.FC = () => {
+  const email = getEmailFromLocalStorage();
+
+  const { data } = useQuery({
+    queryKey: ['client'],
+    queryFn: async () => {
+      const result = await findOnClient(email as string);
+      return result.data;
+    }
+  })
   return (
     <>
       <header className="App-header">
@@ -75,15 +87,27 @@ export const Navbar: React.FC = () => {
                   Cerrar Sesión
                 </CustomNavLink>
               </li>
-              <li className="nav-item">
-                <CustomNavLink
-                  className="nav-link"
-                  to="/admin"
-                  activeStyle={{ backgroundColor: "blue", color: "white" }}
-                  inactiveStyle={{ color: "#282c34" }}
-                >
-                  Admin
-                </CustomNavLink>
+              {
+                data?.role === "admin" && (
+                  <li className="nav-item">
+                    <CustomNavLink
+                      className="nav-link"
+                      to="/admin"
+                      activeStyle={{ backgroundColor: "blue", color: "white" }}
+                      inactiveStyle={{ color: "#282c34" }}
+                    >
+                      Admin
+                    </CustomNavLink>
+                  </li>
+                )
+              }
+              <li>
+                <div className="point">
+                  Puntos: 
+                  {
+                    " " + data?.points
+                  }
+                </div>
               </li>
             </ul>
           </div>
