@@ -1,31 +1,20 @@
 import React, { FormEvent, useState } from "react";
 import "./Login.css";
-import { useNavigate } from "react-router-dom";
 import { LoginResponse, Logindto } from "../types/auth";
 import { saveStateSesion, saveToLocalStorage } from "../utils/authUtils";
 import { useMutation } from "@tanstack/react-query";
 import { toast } from "react-toastify";
 import { logIn } from "../service/auth.service";
-import { Paths } from "../path/paths";
-import { findOnClient } from "../service/client.service";
 
 const Login: React.FC = () => {
   const [formData, setFormData] = useState<Logindto>({ email: "", password: "" });
   const [showPassword, setShowPassword] = useState(false);
-  const navigate = useNavigate();
 
   const loginMutation = useMutation({
     mutationFn: async (data: Logindto) => await logIn(data),
     onSuccess: async (response: LoginResponse) =>  {
       saveToLocalStorage(response.data, formData.email);
-      const user = await findOnClient(formData.email)
-      if(user.data.role === 'admin'){
-        navigate('/home')
-      } else {
-        saveStateSesion(true)
-        navigate(Paths.home)
-      }
-      
+      saveStateSesion(true)
     },
     onError: () => {
       saveStateSesion(false)
