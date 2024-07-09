@@ -27,7 +27,7 @@ export const Navbar: React.FC = () => {
               <li className="nav-item">
                 <CustomNavLink
                   className="nav-link"
-                  to="/"
+                  to={Paths.product}
                   activeStyle={{ backgroundColor: "blue", color: "white" }}
                   inactiveStyle={{ color: "#282c34" }}
                 >
