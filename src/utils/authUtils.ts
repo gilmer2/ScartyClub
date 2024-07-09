@@ -5,6 +5,7 @@ export const saveToLocalStorage = (token: string | [], email: string) => {
 	saveStateSesion(false)
 	const storageEvent = new Event('storageUpdate')
     window.dispatchEvent(storageEvent)
+	window.location.reload()
 }
 
 export const saveStateSesion = (state: boolean) => {
@@ -25,4 +26,5 @@ export const removeTokenFromLocalStorage = () => {
 	saveStateSesion(false)
 	const storageEvent = new Event('storageUpdate')
     window.dispatchEvent(storageEvent)
+	window.location.reload()
 }
