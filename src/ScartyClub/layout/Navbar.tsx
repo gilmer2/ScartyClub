@@ -49,6 +49,26 @@ export const Navbar: React.FC = () => {
               <li className="nav-item">
                 <CustomNavLink
                   className="nav-link"
+                  to="/contact"
+                  activeStyle={{ backgroundColor: "blue", color: "white" }}
+                  inactiveStyle={{ color: "#282c34" }}
+                >
+                  Premios
+                </CustomNavLink>
+              </li>
+              <li className="nav-item">
+                <CustomNavLink
+                  className="nav-link"
+                  to="/contact"
+                  activeStyle={{ backgroundColor: "blue", color: "white" }}
+                  inactiveStyle={{ color: "#282c34" }}
+                >
+                  Beneficios
+                </CustomNavLink>
+              </li>
+              <li className="nav-item">
+                <CustomNavLink
+                  className="nav-link"
                   to="/about"
                   activeStyle={{ backgroundColor: "blue", color: "white" }}
                   inactiveStyle={{ color: "#282c34" }}
