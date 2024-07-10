@@ -1,7 +1,6 @@
 import "./Login.css";
 import { Button } from "../componets/Button";
 import { Input } from "../componets/Input";
-import { Link } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 export const Register = () => {

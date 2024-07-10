@@ -10,6 +10,8 @@ import { getStateSesion } from "./utils/authUtils";
 import Login from "./auth/Login";
 import { ToastContainer } from "react-toastify";
 import { Product } from "./ScartyClub/product/Product";
+import About from "./ScartyClub/about/about";
+import Contact from "./ScartyClub/contact/contact";
 
 const queryClient = new QueryClient();
 const stateSection = getStateSesion() ?? "false";
@@ -34,6 +36,8 @@ function App() {
               element={<Navigate to={Paths.product} replace />}
             />
             <Route path={Paths.product} element={<Product />} />
+            <Route path={Paths.about} element={<About/>} />
+            <Route path={Paths.contact} element={<Contact/>} />
             <Route path={Paths.otros} element={<h1>otros</h1>} />
             <Route path="/admin" element={<Admin />} />
           </Route>
