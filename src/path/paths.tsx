@@ -6,4 +6,5 @@ export const Paths = {
     register: '/register',
     about: '/about',
     contact: '/contact',
+    premios: '/premios',
 }

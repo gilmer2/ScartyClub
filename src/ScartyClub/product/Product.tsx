@@ -1,20 +1,30 @@
+import { useQuery } from "@tanstack/react-query";
 import CustomCard from "../components/CustomCard";
+import { getProduct } from "../../service/product.service";
 
 export const Product = () => {
-    const product = {
-        title: 'Producto Ejemplo',
-        description: 'Esta es la descripción del producto.',
-        price: 19.99,
-        imageUrl: 'https://via.placeholder.com/300'
-    };
+
+    const {data} = useQuery({
+        queryKey: ['product'],
+        queryFn: async () => {
+            const result = await getProduct();
+            return result.data;
+        }
+    })
+
     return (
-        <div>
-            <CustomCard
-                title={product.title}
-                cantidad={10}
-                point={5}
-                imageUrl={product.imageUrl} 
-            />
+        <div className="row">
+            {
+                data?.filter((product) => product.stock > 0).map((product) => (
+                    <CustomCard
+                        title={product.name}
+                        idProduct={product._id}
+                        cantidad={product.stock}
+                        precio={product.price}
+                        imageUrl={product.image} 
+                    />
+                ))
+            }
         </div>
     );
 }

@@ -49,7 +49,7 @@ export const Navbar: React.FC = () => {
               <li className="nav-item">
                 <CustomNavLink
                   className="nav-link"
-                  to="/contact"
+                  to={Paths.premios}
                   activeStyle={{ backgroundColor: "blue", color: "white" }}
                   inactiveStyle={{ color: "#282c34" }}
                 >
@@ -59,7 +59,7 @@ export const Navbar: React.FC = () => {
               <li className="nav-item">
                 <CustomNavLink
                   className="nav-link"
-                  to="/contact"
+                  to="/Beneficios"
                   activeStyle={{ backgroundColor: "blue", color: "white" }}
                   inactiveStyle={{ color: "#282c34" }}
                 >

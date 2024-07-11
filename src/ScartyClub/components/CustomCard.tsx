@@ -4,20 +4,33 @@ import { InvalidateQueryFilters, useMutation,useQuery, useQueryClient  } from "@
 import { UpdateClient } from "../../types/client";
 import { addPointClient, findOnClient } from "../../service/client.service";
 import { getEmailFromLocalStorage } from "../../utils/authUtils";
+import { updateProduct } from "../../service/product.service";
+import { UpdateProduct } from "../../types/product";
+import { toast } from "react-toastify";
 
 interface ProductCardProps {
   title: string;
+  idProduct: string;
   cantidad: number;
-  point: number;
+  precio: number;
   imageUrl: string;
 }
 
 const CustomCard: React.FC<ProductCardProps> = ({
   title,
+  idProduct,
   cantidad,
-  point,
+  precio,
   imageUrl,
 }) => {
+  if (title.length > 10) {
+    title = title.slice(0, 10) + "...";
+  }
+  let puntos = 0;
+  if (precio > 100) {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    puntos = Math.floor(precio / 100) * 5;
+  } 
 
   const email = getEmailFromLocalStorage();
 
@@ -40,10 +53,22 @@ const CustomCard: React.FC<ProductCardProps> = ({
     
   })
 
+  const restarStok = useMutation({
+    mutationFn: async ({ id, data }: { id: string, data: UpdateProduct }) => {
+      await updateProduct(id, data);
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries(['product'] as InvalidateQueryFilters);
+    }
+  })
+
   const hanbleClick =  async () => {
-    const newpoint = data?.points as number + point;
+    const newpoint = data?.points as number + puntos;
     await sumPoint.mutate({ id: data?._id as string, data: { points: newpoint } });
-    console.log('puntos sumados')
+    const newStock = cantidad - 1;
+    await restarStok.mutate({ id: idProduct, data: { stock: newStock } });
+    toast.success("Producto comprado " + title);
+    toast.success("Puntos obtenidos " + puntos);
   }
 
   return (
@@ -54,7 +79,7 @@ const CustomCard: React.FC<ProductCardProps> = ({
         <img className="col-12" src={imageUrl} alt={title} />
         <div className="bg-danger d-flex">
             <p className="mr-auto p-2">{cantidad}</p>
-            <p className="p-2">{point}</p>
+            <p className="p-2">{precio}</p>
             <p className="p-2">
                 <button onClick={hanbleClick} className='btn btn-warning'>
                     comprar

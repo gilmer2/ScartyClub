@@ -12,6 +12,7 @@ import { ToastContainer } from "react-toastify";
 import { Product } from "./ScartyClub/product/Product";
 import About from "./ScartyClub/about/about";
 import Contact from "./ScartyClub/contact/contact";
+import { Premios } from "./ScartyClub/premios/Premios";
 
 const queryClient = new QueryClient();
 const stateSection = getStateSesion() ?? "false";
@@ -39,6 +40,7 @@ function App() {
             <Route path={Paths.about} element={<About/>} />
             <Route path={Paths.contact} element={<Contact/>} />
             <Route path={Paths.otros} element={<h1>otros</h1>} />
+            <Route path={Paths.premios} element={<Premios/>} />
             <Route path="/admin" element={<Admin />} />
           </Route>
         </Route>
