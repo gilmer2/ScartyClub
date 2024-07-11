@@ -13,6 +13,9 @@ import { Product } from "./ScartyClub/product/Product";
 import About from "./ScartyClub/about/about";
 import Contact from "./ScartyClub/contact/contact";
 import { Premios } from "./ScartyClub/premios/Premios";
+import Benefit from "./ScartyClub/benefit/benefit";
+import Awards from "./ScartyClub/awards/awards";
+import Services from "./ScartyClub/services/services";
 
 const queryClient = new QueryClient();
 const stateSection = getStateSesion() ?? "false";
@@ -37,7 +40,10 @@ function App() {
               element={<Navigate to={Paths.product} replace />}
             />
             <Route path={Paths.product} element={<Product />} />
+            <Route path={Paths.awards} element={<Awards />} />
+            <Route path={Paths.benefit} element={<Benefit/>} />
             <Route path={Paths.about} element={<About/>} />
+            <Route path={Paths.services} element={<Services/>} />
             <Route path={Paths.contact} element={<Contact/>} />
             <Route path={Paths.otros} element={<h1>otros</h1>} />
             <Route path={Paths.premios} element={<Premios/>} />
