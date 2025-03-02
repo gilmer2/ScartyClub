@@ -1,41 +1,76 @@
+import React, { FormEvent, useState } from "react";
 import "./Login.css";
-import { Button } from "../componets/Button";
-import { Input } from "../componets/Input";
-import { Link } from "react-router-dom";
-import "bootstrap/dist/css/bootstrap.min.css";
+import { LoginResponse, Logindto } from "../types/auth";
+import { saveStateSesion, saveToLocalStorage } from "../utils/authUtils";
+import { useMutation } from "@tanstack/react-query";
+import { toast } from "react-toastify";
+import { logIn } from "../service/auth.service";
 
-export const Login = () => {
+const Login: React.FC = () => {
+  const [formData, setFormData] = useState<Logindto>({ email: "", password: "" });
+  const [showPassword, setShowPassword] = useState(false);
+
+  const loginMutation = useMutation({
+    mutationFn: async (data: Logindto) => await logIn(data),
+    onSuccess: async (response: LoginResponse) =>  {
+      saveToLocalStorage(response.data, formData.email);
+      saveStateSesion(true)
+    },
+    onError: () => {
+      saveStateSesion(false)
+      toast.error("Credenciales incorrectas");
+    },
+  });
+
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    loginMutation.mutate(formData);
+  };
+
   return (
-    <>
-      <br />
-      <br />
-      <div className="login-form">
-        <h1>Iniciar sesión</h1>
-        <Input type="correo" placeholder="Correo electronico" />
-        <Input type="password" placeholder="Contraseña" />
-        <Link className="form-text text-muted text-decoration-none" to="">
-          ¿Has olvidado tu contraseña?
-        </Link>
-        <>
-          <br />
-          <br />
-        </>
-        <Button
-          text="Iniciar sesión"
-          onClick={() => {}}
-          color="#007BFF"
-          type="submit"
-        />
-        <hr className="my-4"></hr>
-        <div className="d-flex flex-column">
-          <button className="btn btn-danger btn-user btn-block mb-2">
-            <i className="fab fa-google fa-fw"></i> Iniciar sesión con Google
-          </button>
-          <button className="btn btn-primary btn-user btn-block">
-            <i className="fab fa-facebook-f fa-fw"></i> Iniciar sesión con Facebook
-          </button>
+    <div className="login-container d-flex justify-content-center align-items-center">
+      <form onSubmit={handleSubmit} className="login-form">
+        <h2 className="text-center mb-4">Iniciar Sesión</h2>
+        <div className="form-group mb-3">
+          <label htmlFor="email">Correo Electrónico</label>
+          <input
+            type="email"
+            className="form-control"
+            id="email"
+            value={formData.email}
+            onChange={(e) =>
+              setFormData({ ...formData, email: e.target.value })
+            }
+            required
+          />
         </div>
-      </div>
-    </>
+        <div className="form-group mb-3">
+          <label htmlFor="password">Contraseña</label>
+          <div className="password-wrapper">
+            <input
+              type={showPassword ? "text" : "password"}
+              className="form-control"
+              id="password"
+              value={formData.password}
+              onChange={(e) =>
+                setFormData({ ...formData, password: e.target.value })
+              }
+              required
+            />
+            <span
+              className="password-toggle"
+              onClick={() => setShowPassword(!showPassword)}
+            >
+              {showPassword ? "👓" : "🕶️"}
+            </span>
+          </div>
+        </div>
+        <button type="submit" className="btn btn-primary w-100">
+          Ingresar
+        </button>
+      </form>
+    </div>
   );
 };
+
+export default Login;
